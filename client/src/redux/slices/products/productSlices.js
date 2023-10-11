@@ -16,7 +16,7 @@ const initialState = {
 
 // create product action
 export const createProductAction = createAsyncThunk(
-  'products/create',
+  'product/create',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const { name, description, category, sizes, brand, colors, price } =
@@ -74,6 +74,6 @@ const productsSlice = createSlice({
 });
 
 // generate the reducer
-const productsReducer = productsSlice.reducer;
+const productReducer = productsSlice.reducer;
 
-export default productsReducer;
+export default productReducer;

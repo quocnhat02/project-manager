@@ -111,7 +111,7 @@ export default function AddProduct() {
                   Select Size
                 </label>
                 <Select
-                  // components={animatedComponents}
+                  components={animatedComponents}
                   isMulti
                   name='sizes'
                   options={sizeOptionsConverted}
