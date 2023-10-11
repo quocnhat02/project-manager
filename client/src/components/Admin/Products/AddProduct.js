@@ -12,10 +12,23 @@ import { createProductAction } from '../../../redux/slices/products/productSlice
 const animatedComponents = makeAnimated();
 
 export default function AddProduct() {
+  // sizes
+  const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+  const [sizeOption, setSizeOption] = useState([]);
+  const handleSizeChange = (sizes) => {
+    setSizeOption(sizes);
+  };
+
+  // converted sizes
+  const sizeOptionsConverted = sizes?.map((size) => {
+    return {
+      value: size,
+      label: size,
+    };
+  });
+
   const dispatch = useDispatch();
   let categories,
-    sizeOptionsCoverted,
-    handleSizeChange,
     colorOptionsCoverted,
     handleColorChangeOption,
     brands,
@@ -98,10 +111,10 @@ export default function AddProduct() {
                   Select Size
                 </label>
                 <Select
-                  components={animatedComponents}
+                  // components={animatedComponents}
                   isMulti
                   name='sizes'
-                  options={sizeOptionsCoverted}
+                  options={sizeOptionsConverted}
                   className='basic-multi-select'
                   classNamePrefix='select'
                   isClearable={true}
