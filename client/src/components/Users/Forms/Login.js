@@ -47,7 +47,7 @@ const Login = () => {
         <div className='relative container px-4 mx-auto'>
           <div className='absolute inset-0 bg-blue-200 my-24 -ml-4' />
           <div className='relative flex flex-wrap bg-white'>
-            <div className='w-full md:w-4/6 px-4'>
+            <div className='w-full md:w-3/6 px-4'>
               <div className='lg:max-w-3xl mx-auto py-20 px-4 md:px-10 lg:px-20'>
                 <h3 className='mb-8 text-4xl md:text-5xl font-bold font-heading'>
                   Login to your account
@@ -107,10 +107,11 @@ const Login = () => {
               </div>
             </div>
             <div
-              className='w-full md:w-2/6 h-128 md:h-auto flex items-center lg:items-end px-4 pb-20 bg-cover bg-no-repeat'
+              className='w-full md:w-3/6 h-128 md:h-auto flex items-center lg:items-end px-4 pb-20 bg-cover bg-no-repeat'
               style={{
                 backgroundImage:
-                  'url("https://cdn.pixabay.com/photo/2017/03/29/04/47/high-heels-2184095_1280.jpg")',
+                  // 'url("https://cdn.pixabay.com/photo/2017/03/29/04/47/high-heels-2184095_1280.jpg")',
+                  'url("https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")',
               }}
             ></div>
           </div>

@@ -30,10 +30,12 @@ import OrdersList from './components/Admin/Orders/OdersList';
 import ManageOrders from './components/Admin/Orders/ManageOrders';
 import Customers from './components/Admin/Orders/Customers';
 import BrandsColorsList from './components/Admin/Categories/BrandsColorsList';
+import SweetAlert from './Playground/SweetAlert';
 
 const App = () => {
   return (
     <BrowserRouter>
+      <SweetAlert icon={'success'} title={'Login'} message={'success'} />
       <Navbar />
       {/* hide navbar if admin */}
       <Routes>
