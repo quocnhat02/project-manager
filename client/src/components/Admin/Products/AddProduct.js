@@ -7,7 +7,7 @@ import ErrorMsg from '../../ErrorMsg/ErrorMsg';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import { createProductAction } from '../../../redux/slices/products/productSlices';
-import { fetchCategoryAction } from '../../../redux/slices/categoty/categoriesSlices';
+import { fetchCategoriesAction } from '../../../redux/slices/categoty/categoriesSlices';
 import { fetchBrandsAction } from '../../../redux/slices/categoty/brandsSlice';
 import { fetchColorsAction } from '../../../redux/slices/categoty/colorsSlice';
 
@@ -54,7 +54,7 @@ export default function AddProduct() {
 
   // categories
   useEffect(() => {
-    dispatch(fetchCategoryAction());
+    dispatch(fetchCategoriesAction());
   }, [dispatch]);
 
   // select data from  state

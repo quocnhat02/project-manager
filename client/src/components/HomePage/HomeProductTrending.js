@@ -17,11 +17,7 @@ const HomeProductTrending = () => {
     );
   }, [dispatch]);
   //get data from store
-  const {
-    products: { products },
-    error,
-    loading,
-  } = useSelector((state) => state?.products);
+  const { products, error, loading } = useSelector((state) => state?.products);
   const trendingProducts = [];
   return (
     <>
