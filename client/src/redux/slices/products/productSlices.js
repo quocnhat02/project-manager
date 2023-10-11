@@ -16,11 +16,16 @@ const initialState = {
 
 // create product action
 export const createProductAction = createAsyncThunk(
-  'product/create',
+  'products/create',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const { name, description, category, sizes, brand, colors, price } =
         payload;
+
+      // make request
+
+      // token - authenticated
+      // images
 
       // make request
       const { data } = await axios.post(`${baseURL}/products`, {
@@ -39,3 +44,30 @@ export const createProductAction = createAsyncThunk(
     }
   }
 );
+
+const productsSlice = createSlice({
+  name: 'products',
+  initialState,
+  extraReducers: (builder) => {
+    // create
+    builder.addCase(createProductAction.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(createProductAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.product = action.payload;
+      state.isAdded = true;
+    });
+    builder.addCase(createProductAction.rejected, (state, action) => {
+      state.loading = false;
+      state.product = null;
+      state.isAdded = false;
+      state.error = action.payload;
+    });
+  },
+});
+
+// generate the reducer
+const productsReducer = productsSlice.reducer;
+
+export default productsReducer;
