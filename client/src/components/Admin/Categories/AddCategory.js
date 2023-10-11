@@ -53,6 +53,12 @@ export default function CategoryToAdd() {
         file,
       })
     );
+
+    //reset form data
+    setFormData({
+      name: '',
+      image: '',
+    });
   };
 
   return (
