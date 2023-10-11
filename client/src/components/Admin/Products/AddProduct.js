@@ -9,6 +9,7 @@ import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import { createProductAction } from '../../../redux/slices/products/productSlices';
 import { fetchCategoryAction } from '../../../redux/slices/categoty/categoriesSlices';
 import { fetchBrandsAction } from '../../../redux/slices/categoty/brandsSlice';
+import { fetchColorsAction } from '../../../redux/slices/categoty/colorsSlice';
 
 //animated components for react-select
 const animatedComponents = makeAnimated();
@@ -18,6 +19,7 @@ export default function AddProduct() {
   // sizes
   const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   const [sizeOption, setSizeOption] = useState([]);
+  const [colorOption, setColorOption] = useState([]);
   const handleSizeChange = (sizes) => {
     setSizeOption(sizes);
   };
@@ -50,7 +52,28 @@ export default function AddProduct() {
     brands: { brands },
   } = useSelector((state) => state?.brands);
 
-  let colorOptionsCoverted, handleColorChangeOption, isAdded;
+  // colors
+  useEffect(() => {
+    dispatch(fetchColorsAction());
+  }, [dispatch]);
+
+  // select data from  state
+  const {
+    colors: { colors },
+  } = useSelector((state) => state?.colors);
+
+  const handleColorChange = (colors) => {
+    setColorOption(colors);
+  };
+  // converted colors
+  const colorsConverted = colors?.map((color) => {
+    return {
+      value: color?.name,
+      label: color?.name,
+    };
+  });
+
+  let isAdded;
 
   //---form data---
   const [formData, setFormData] = useState({
@@ -194,14 +217,14 @@ export default function AddProduct() {
                   components={animatedComponents}
                   isMulti
                   name='colors'
-                  options={colorOptionsCoverted}
+                  options={colorsConverted}
                   className='basic-multi-select'
                   classNamePrefix='select'
                   isClearable={true}
                   isLoading={false}
                   isSearchable={true}
                   closeMenuOnSelect={false}
-                  onChange={(e) => handleColorChangeOption(e)}
+                  onChange={(e) => handleColorChange(e)}
                 />
               </div>
 
