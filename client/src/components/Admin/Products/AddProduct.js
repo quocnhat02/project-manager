@@ -47,9 +47,7 @@ export default function AddProduct() {
   }, [dispatch]);
 
   // select data from  state
-  const { categories, loading, error } = useSelector(
-    (state) => state?.categories?.categories
-  );
+  const { categories } = useSelector((state) => state?.categories?.categories);
 
   // brands
   useEffect(() => {
@@ -82,8 +80,6 @@ export default function AddProduct() {
     };
   });
 
-  let isAdded;
-
   //---form data---
   const [formData, setFormData] = useState({
     name: '',
@@ -96,6 +92,11 @@ export default function AddProduct() {
     price: '',
     totalQty: '',
   });
+
+  // get product from store
+  const { product, isAdded, loading, error } = useSelector(
+    (state) => state?.products
+  );
 
   //onChange
   const handleOnChange = (e) => {
@@ -114,18 +115,19 @@ export default function AddProduct() {
         sizes: sizeOption?.map((size) => size?.label),
       })
     );
+
     //reset form data
-    // setFormData({
-    //   name: "",
-    //   description: "",
-    //   category: "",
-    //   sizes: "",
-    //   brand: "",
-    //   colors: "",
-    //   images: "",
-    //   price: "",
-    //   totalQty: "",
-    // });
+    setFormData({
+      name: '',
+      description: '',
+      category: '',
+      sizes: '',
+      brand: '',
+      colors: '',
+      images: '',
+      price: '',
+      totalQty: '',
+    });
   };
 
   return (
@@ -284,7 +286,7 @@ export default function AddProduct() {
                         </label>
                       </div>
                       <p className='text-xs text-gray-500'>
-                        PNG, JPG, GIF up to 10MB
+                        PNG, JPG, GIF up to 1MB
                       </p>
                     </div>
                   </div>
