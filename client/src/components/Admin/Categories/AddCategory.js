@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ErrorComponent from '../../ErrorMsg/ErrorMsg';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
@@ -11,32 +11,37 @@ export default function CategoryToAdd() {
 
   const [formData, setFormData] = useState({
     name: '',
+    image: '',
   });
   //---onChange---
+  // const handleOnChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
   const handleOnChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  let { error, isAdded, loading } = {};
 
   // files
-  const [file, setFile] = useState([]);
-  const [fileErr, setFileErr] = useState([]);
+  const [file, setFile] = useState(null);
+  const [fileErr, setFileErr] = useState(null);
   // file handleChange
   const fileHandleChange = (event) => {
-    const newFile = Array.from(event.target?.files);
+    const newFile = event.target?.files[0];
     // validation
-    const newErr = [];
-    newFile.forEach((file) => {
-      if (file?.size > 1000000) {
-        newErr.push(`${file?.name} is too large`);
-      }
-      if (!file?.type?.startsWith('image/')) {
-        newErr.push(`${file?.name} is not an image`);
-      }
-    });
+
+    if (file?.size > 1000000) {
+      setFileErr(`${file?.name} is too large`);
+    }
+    if (!file?.type?.startsWith('image/')) {
+      setFileErr(`${file?.name} is not an image`);
+    }
+
     setFile(newFile);
-    setFileErr(newErr);
   };
+
+  // get data from store
+
+  const { loading, error, isAdded } = useSelector((state) => state?.categories);
 
   //onSubmit
   const handleOnSubmit = (e) => {
@@ -53,6 +58,7 @@ export default function CategoryToAdd() {
   return (
     <>
       {error && <ErrorComponent message={error?.message} />}
+      {fileErr && <ErrorComponent message={fileErr} />}
       {isAdded && <SuccessMsg message='Category added successfully' />}
       <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -120,7 +126,8 @@ export default function CategoryToAdd() {
                         >
                           <span>Upload file</span>
                           <input
-                            value={formData.images}
+                            name='image'
+                            value={formData.image}
                             onChange={fileHandleChange}
                             type='file'
                           />
