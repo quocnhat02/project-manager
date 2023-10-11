@@ -294,7 +294,7 @@ export default function AddProduct() {
                           <input
                             name='images'
                             value={formData.images}
-                            onChange={handleOnChange}
+                            onChange={fileHandleChange}
                             type='file'
                           />
                         </label>
