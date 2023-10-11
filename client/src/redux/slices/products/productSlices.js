@@ -48,6 +48,7 @@ export const createProductAction = createAsyncThunk(
       formData.append('name', name);
       formData.append('description', description);
       formData.append('category', category);
+      formData.append('brand', brand);
 
       formData.append('price', price);
       formData.append('totalQty', totalQty);
