@@ -29,11 +29,11 @@ export default function CategoryToAdd() {
     const newFile = event.target?.files[0];
     // validation
 
-    if (file?.size > 1000000) {
-      setFileErr(`${file?.name} is too large`);
+    if (newFile?.size > 1000000) {
+      setFileErr(`${newFile?.name} is too large`);
     }
-    if (!file?.type?.startsWith('image/')) {
-      setFileErr(`${file?.name} is not an image`);
+    if (!newFile?.type?.startsWith('image/')) {
+      setFileErr(`${newFile?.name} is not an image`);
     }
 
     setFile(newFile);
@@ -50,7 +50,7 @@ export default function CategoryToAdd() {
     dispatch(
       createCategoryAction({
         name: formData?.name,
-        image: file,
+        file,
       })
     );
   };
@@ -127,7 +127,7 @@ export default function CategoryToAdd() {
                           <span>Upload file</span>
                           <input
                             name='image'
-                            value={formData.image}
+                            value={formData?.image}
                             onChange={fileHandleChange}
                             type='file'
                           />

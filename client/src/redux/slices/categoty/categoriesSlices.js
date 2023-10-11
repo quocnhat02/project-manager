@@ -36,10 +36,10 @@ export const createCategoryAction = createAsyncThunk(
   'category/create',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { name, image } = payload;
+      const { name, file } = payload;
       const formData = new FormData();
       formData.append('name', name);
-      formData.append('image', image);
+      formData.append('file', file);
       // token - authenticated
       const token = getState()?.users?.userAuth?.userInfo?.token;
       const config = {
