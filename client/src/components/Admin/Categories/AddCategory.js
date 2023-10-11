@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ErrorComponent from '../../ErrorMsg/ErrorMsg';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
+import { createCategoryAction } from '../../../redux/slices/categoty/categoriesSlices';
 
 export default function CategoryToAdd() {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: '',
   });
@@ -15,28 +19,35 @@ export default function CategoryToAdd() {
   let { error, isAdded, loading } = {};
 
   // files
-  const [files, setFiles] = useState([]);
-  const [fileErrs, setFileErrs] = useState([]);
+  const [file, setFile] = useState([]);
+  const [fileErr, setFileErr] = useState([]);
   // file handleChange
   const fileHandleChange = (event) => {
-    const newFiles = Array.from(event.target?.files);
+    const newFile = Array.from(event.target?.files);
     // validation
-    const newErrs = [];
-    newFiles.forEach((file) => {
+    const newErr = [];
+    newFile.forEach((file) => {
       if (file?.size > 1000000) {
-        newErrs.push(`${file?.name} is too large`);
+        newErr.push(`${file?.name} is too large`);
       }
       if (!file?.type?.startsWith('image/')) {
-        newErrs.push(`${file?.name} is not an image`);
+        newErr.push(`${file?.name} is not an image`);
       }
     });
-    setFiles(newFiles);
-    setFileErrs(newErrs);
+    setFile(newFile);
+    setFileErr(newErr);
   };
 
   //onSubmit
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    // dispatch
+    dispatch(
+      createCategoryAction({
+        name: formData?.name,
+        image: file,
+      })
+    );
   };
 
   return (
@@ -109,7 +120,6 @@ export default function CategoryToAdd() {
                         >
                           <span>Upload file</span>
                           <input
-                            name='images'
                             value={formData.images}
                             onChange={fileHandleChange}
                             type='file'

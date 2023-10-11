@@ -293,6 +293,7 @@ export default function AddProduct() {
                           <span>Upload files</span>
                           <input
                             name='images'
+                            multiple
                             value={formData.images}
                             onChange={fileHandleChange}
                             type='file'
