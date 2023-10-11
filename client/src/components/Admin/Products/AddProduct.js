@@ -7,11 +7,13 @@ import ErrorMsg from '../../ErrorMsg/ErrorMsg';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import { createProductAction } from '../../../redux/slices/products/productSlices';
+import { fetchCategoryAction } from '../../../redux/slices/categoty/categoriesSlices';
 
 //animated components for react-select
 const animatedComponents = makeAnimated();
 
 export default function AddProduct() {
+  const dispatch = useDispatch();
   // sizes
   const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   const [sizeOption, setSizeOption] = useState([]);
@@ -27,14 +29,17 @@ export default function AddProduct() {
     };
   });
 
-  const dispatch = useDispatch();
-  let categories,
-    colorOptionsCoverted,
-    handleColorChangeOption,
-    brands,
-    loading,
-    error,
-    isAdded;
+  // categories
+  useEffect(() => {
+    dispatch(fetchCategoryAction());
+  }, [dispatch]);
+
+  // select data from  state
+  const { categories, loading, error } = useSelector(
+    (state) => state?.categories?.categories
+  );
+
+  let colorOptionsCoverted, handleColorChangeOption, brands, isAdded;
 
   //---form data---
   const [formData, setFormData] = useState({
