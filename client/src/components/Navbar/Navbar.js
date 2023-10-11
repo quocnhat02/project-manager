@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import logo from './logo3.png';
-import baseURL from '../../utils/baseUrl';
+import baseURL from '../../utils/baseURL';
 
 export default function Navbar() {
   const categoriesToDisplay = [];

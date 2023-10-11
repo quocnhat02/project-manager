@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import baseUrl from '../../../utils/baseUrl';
+import baseURL from '../../../utils/baseURL';
 import { resetErrAction } from '../globalActions/globalActions';
 
 // initialState
@@ -26,7 +26,7 @@ export const registerUserAction = createAsyncThunk(
   ) => {
     try {
       // make the http request
-      const { data } = await axios.post(`${baseUrl}/users/register`, {
+      const { data } = await axios.post(`${baseURL}/users/register`, {
         email,
         password,
         fullname,
@@ -45,7 +45,7 @@ export const loginUserAction = createAsyncThunk(
   async ({ email, password }, { rejectWithValue, getState, dispatch }) => {
     try {
       // make the http request
-      const { data } = await axios.post(`${baseUrl}/users/login`, {
+      const { data } = await axios.post(`${baseURL}/users/login`, {
         email,
         password,
       });
