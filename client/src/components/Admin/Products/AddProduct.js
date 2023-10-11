@@ -28,7 +28,7 @@ export default function AddProduct() {
   // sizes
   const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   const [sizeOption, setSizeOption] = useState([]);
-  const [colorOption, setColorOption] = useState([]);
+  const [colorsOption, setColorsOption] = useState([]);
   const handleSizeChange = (sizes) => {
     setSizeOption(sizes);
   };
@@ -72,7 +72,7 @@ export default function AddProduct() {
   } = useSelector((state) => state?.colors);
 
   const handleColorChange = (colors) => {
-    setColorOption(colors);
+    setColorsOption(colors);
   };
   // converted colors
   const colorsConverted = colors?.map((color) => {
@@ -106,7 +106,14 @@ export default function AddProduct() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     // dispatch
-    dispatch(createProductAction(formData));
+    dispatch(
+      createProductAction({
+        ...formData,
+        images: files,
+        colors: colorsOption?.map((color) => color?.label),
+        sizes: sizeOption?.map((size) => size?.label),
+      })
+    );
     //reset form data
     // setFormData({
     //   name: "",
