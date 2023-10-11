@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchCategoriesAction } from '../../redux/slices/categoty/categoriesSlices';
+import { fetchCategoriesAction } from '../../redux/slices/categories/categoriesSlices';
 
 const AllCategories = () => {
   // dispatch

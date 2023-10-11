@@ -7,9 +7,9 @@ import ErrorMsg from '../../ErrorMsg/ErrorMsg';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import { createProductAction } from '../../../redux/slices/products/productSlices';
-import { fetchCategoriesAction } from '../../../redux/slices/categoty/categoriesSlices';
-import { fetchBrandsAction } from '../../../redux/slices/categoty/brandsSlice';
-import { fetchColorsAction } from '../../../redux/slices/categoty/colorsSlice';
+import { fetchCategoriesAction } from '../../../redux/slices/categories/categoriesSlices';
+import { fetchBrandsAction } from '../../../redux/slices/categories/brandsSlice';
+import { fetchColorsAction } from '../../../redux/slices/categories/colorsSlice';
 
 //animated components for react-select
 const animatedComponents = makeAnimated();

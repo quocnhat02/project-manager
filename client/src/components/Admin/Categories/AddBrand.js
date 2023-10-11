@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
-import { createBrandAction } from '../../../redux/slices/categoty/brandsSlice';
+import { createBrandAction } from '../../../redux/slices/categories/brandsSlice';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import ErrorMsg from '../../ErrorMsg/ErrorMsg';

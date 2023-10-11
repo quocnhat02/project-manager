@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ErrorComponent from '../../ErrorMsg/ErrorMsg';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
-import { createCategoryAction } from '../../../redux/slices/categoty/categoriesSlices';
+import { createCategoryAction } from '../../../redux/slices/categories/categoriesSlices';
 
 export default function CategoryToAdd() {
   const dispatch = useDispatch();

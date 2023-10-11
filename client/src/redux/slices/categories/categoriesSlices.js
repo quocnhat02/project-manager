@@ -19,7 +19,7 @@ const initialState = {
 
 // fetch categories action
 export const fetchCategoriesAction = createAsyncThunk(
-  'category/fetch All',
+  'category/fetch-All',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(`${baseURL}/categories`);

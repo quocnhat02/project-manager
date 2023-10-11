@@ -19,7 +19,7 @@ const initialState = {
 
 // fetch brand action
 export const fetchBrandsAction = createAsyncThunk(
-  'brands/fetch All',
+  'brands/fetch-All',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(`${baseURL}/brands`);

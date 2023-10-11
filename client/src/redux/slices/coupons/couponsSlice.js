@@ -8,8 +8,8 @@ import baseURL from '../../../utils/baseURL';
 
 // initialState
 const initialState = {
-  colors: [],
-  color: {},
+  coupons: [],
+  coupon: {},
   loading: false,
   error: null,
   isAdded: false,
@@ -17,12 +17,12 @@ const initialState = {
   isDeleted: false,
 };
 
-// fetch color action
-export const fetchColorsAction = createAsyncThunk(
-  'colors/fetch All',
+// fetch coupons action
+export const fetchCouponsAction = createAsyncThunk(
+  'coupons/fetch-All',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { data } = await axios.get(`${baseURL}/colors`);
+      const { data } = await axios.get(`${baseURL}/coupons`);
 
       return data;
     } catch (error) {
@@ -31,10 +31,13 @@ export const fetchColorsAction = createAsyncThunk(
   }
 );
 
-// create color action
-export const createColorAction = createAsyncThunk(
-  'color/create',
-  async (name, { rejectWithValue, getState, dispatch }) => {
+// create coupon action
+export const createCouponAction = createAsyncThunk(
+  'coupons/create',
+  async (
+    { code, discount, startDate, endDate },
+    { rejectWithValue, getState, dispatch }
+  ) => {
     try {
       // token - authenticated
       const token = getState()?.users?.userAuth?.userInfo?.token;
@@ -45,9 +48,12 @@ export const createColorAction = createAsyncThunk(
       };
       // images
       const { data } = await axios.post(
-        `${baseURL}/colors`,
+        `${baseURL}/coupons`,
         {
-          name,
+          code,
+          discount,
+          startDate,
+          endDate,
         },
         config
       );
@@ -59,38 +65,38 @@ export const createColorAction = createAsyncThunk(
   }
 );
 
-const colorsSlice = createSlice({
-  name: 'colors',
+const couponsSlice = createSlice({
+  name: 'coupons',
   initialState,
   extraReducers: (builder) => {
     // create
-    builder.addCase(createColorAction.pending, (state) => {
+    builder.addCase(createCouponAction.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(createColorAction.fulfilled, (state, action) => {
+    builder.addCase(createCouponAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.color = action.payload;
+      state.coupon = action.payload;
       state.isAdded = true;
     });
-    builder.addCase(createColorAction.rejected, (state, action) => {
+    builder.addCase(createCouponAction.rejected, (state, action) => {
       state.loading = false;
-      state.color = null;
+      state.coupon = null;
       state.isAdded = false;
       state.error = action.payload;
     });
 
     // fetch all
-    builder.addCase(fetchColorsAction.pending, (state) => {
+    builder.addCase(fetchCouponsAction.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchColorsAction.fulfilled, (state, action) => {
+    builder.addCase(fetchCouponsAction.fulfilled, (state, action) => {
       state.loading = false;
-      state.colors = action.payload;
+      state.coupons = action.payload;
       state.isAdded = true;
     });
-    builder.addCase(fetchColorsAction.rejected, (state, action) => {
+    builder.addCase(fetchCouponsAction.rejected, (state, action) => {
       state.loading = false;
-      state.colors = null;
+      state.coupons = null;
       state.isAdded = false;
       state.error = action.payload;
     });
@@ -108,6 +114,6 @@ const colorsSlice = createSlice({
 });
 
 // generate the reducer
-const colorReducer = colorsSlice.reducer;
+const couponsReducer = couponsSlice.reducer;
 
-export default colorReducer;
+export default couponsReducer;

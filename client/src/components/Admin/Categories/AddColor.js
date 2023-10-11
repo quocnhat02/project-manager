@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
-import { createColorAction } from '../../../redux/slices/categoty/colorsSlice';
+import { createColorAction } from '../../../redux/slices/categories/colorsSlice';
 import LoadingComponent from '../../LoadingComp/LoadingComponent';
 import SuccessMsg from '../../SuccessMsg/SuccessMsg';
 import ErrorMsg from '../../ErrorMsg/ErrorMsg';
