@@ -17,6 +17,12 @@ export default function Navbar() {
 
   //get cart items from local storage
   let cartItemsFromLocalStorage;
+
+  // get login user from localstorage
+  const user = JSON.parse(localStorage.getItem('userInfo'));
+
+  const isLoggedIn = user?.token ? true : false;
+
   return (
     <div className='bg-white'>
       {/* Mobile menu */}
@@ -112,22 +118,26 @@ export default function Navbar() {
 
                 {/* mobile links register/login */}
                 <div className='space-y-6 border-t border-gray-200 py-6 px-4'>
-                  <div className='flow-root'>
-                    <Link
-                      to='/register'
-                      className='-m-2 block p-2 font-medium text-gray-900'
-                    >
-                      Create an account
-                    </Link>
-                  </div>
-                  <div className='flow-root'>
-                    <Link
-                      to='/login'
-                      className='-m-2 block p-2 font-medium text-gray-900'
-                    >
-                      Sign in
-                    </Link>
-                  </div>
+                  {!isLoggedIn && (
+                    <>
+                      <div className='flow-root'>
+                        <Link
+                          to='/register'
+                          className='-m-2 block p-2 font-medium text-white'
+                        >
+                          Create an account
+                        </Link>
+                      </div>
+                      <div className='flow-root'>
+                        <Link
+                          to='/login'
+                          className='-m-2 block p-2 font-medium text-white'
+                        >
+                          Sign in
+                        </Link>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className='space-y-6 border-t border-gray-200 py-6 px-4'></div>
@@ -147,19 +157,26 @@ export default function Navbar() {
               </p>
 
               <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                <Link
-                  to='/register'
-                  className='text-sm font-medium text-white hover:text-gray-100'
-                >
-                  Create an account
-                </Link>
-                <span className='h-6 w-px bg-gray-600' aria-hidden='true' />
-                <Link
-                  to='/login'
-                  className='text-sm font-medium text-white hover:text-gray-100'
-                >
-                  Sign in
-                </Link>
+                {!isLoggedIn && (
+                  <>
+                    <div className='flow-root'>
+                      <Link
+                        to='/register'
+                        className='-m-2 block p-2 font-medium text-white'
+                      >
+                        Create an account
+                      </Link>
+                    </div>
+                    <div className='flow-root'>
+                      <Link
+                        to='/login'
+                        className='-m-2 block p-2 font-medium text-white'
+                      >
+                        Sign in
+                      </Link>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -252,12 +269,17 @@ export default function Navbar() {
                     <div className='flex items-center lg:ml-8'>
                       <div className='flex space-x-8'>
                         <div className='flex'>
-                          <Link
-                            to='/customer-profile'
-                            className='-m-2 p-2 text-gray-400 hover:text-gray-500'
-                          >
-                            <UserIcon className='h-6 w-6' aria-hidden='true' />
-                          </Link>
+                          {isLoggedIn && (
+                            <Link
+                              to='/customer-profile'
+                              className='-m-2 p-2 text-gray-400 hover:text-gray-500'
+                            >
+                              <UserIcon
+                                className='h-6 w-6'
+                                aria-hidden='true'
+                              />
+                            </Link>
+                          )}
                         </div>
                       </div>
 
