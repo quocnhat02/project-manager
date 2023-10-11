@@ -16,6 +16,15 @@ const animatedComponents = makeAnimated();
 
 export default function AddProduct() {
   const dispatch = useDispatch();
+  // files
+  const [files, setFiles] = useState([]);
+  const [fileErrs, setFileErrs] = useState([]);
+  // file handleChange
+  const fileHandleChange = (event) => {
+    const newFiles = Array.from(event.target?.files);
+    setFiles(newFiles);
+  };
+
   // sizes
   const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   const [sizeOption, setSizeOption] = useState([]);
