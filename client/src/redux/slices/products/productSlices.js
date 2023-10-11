@@ -21,9 +21,7 @@ export const createProductAction = createAsyncThunk(
     try {
       const { name, description, category, sizes, brand, colors, price } =
         payload;
-
       // make request
-
       // token - authenticated
       // images
 
