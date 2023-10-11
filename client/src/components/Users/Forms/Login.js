@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../../redux/slices/users/usersSlice';
 
 const Login = () => {
@@ -22,12 +22,25 @@ const Login = () => {
     dispatch(loginUserAction({ email, password }));
   };
 
-  //select store data
-  const { loading, userAuth } = {};
-  //redirect
-  if (userAuth?.userInfo?.status) {
+  // //select store data
+  // const { loading, userAuth } = {};
+  // //redirect
+  // if (userAuth?.userInfo?.status) {
+  //   window.location.href = '/admin';
+  // }
+
+  // get data from store
+  const { error, loading, userInfo } = useSelector(
+    (state) => state?.users?.userAuth
+  );
+
+  // redirect
+  if (userInfo?.userFound?.isAdmin) {
     window.location.href = '/admin';
+  } else {
+    window.location.href = '/customer-profile';
   }
+
   return (
     <>
       <section className='py-20 bg-gray-100 overflow-x-hidden'>
