@@ -17,8 +17,8 @@ const initialState = {
   isDeleted: false,
 };
 
-// fetch category action
-export const fetchCategoryAction = createAsyncThunk(
+// fetch categories action
+export const fetchCategoriesAction = createAsyncThunk(
   'category/fetch All',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
@@ -82,18 +82,16 @@ const categoriesSlice = createSlice({
     });
 
     // fetch all
-    builder.addCase(fetchCategoryAction.pending, (state) => {
+    builder.addCase(fetchCategoriesAction.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchCategoryAction.fulfilled, (state, action) => {
+    builder.addCase(fetchCategoriesAction.fulfilled, (state, action) => {
       state.loading = false;
       state.categories = action.payload;
-      state.isAdded = true;
     });
-    builder.addCase(fetchCategoryAction.rejected, (state, action) => {
+    builder.addCase(fetchCategoriesAction.rejected, (state, action) => {
       state.loading = false;
       state.categories = null;
-      state.isAdded = false;
       state.error = action.payload;
     });
 
