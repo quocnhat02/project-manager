@@ -29,9 +29,9 @@ const RegisterForm = () => {
   const { user, error, loading } = useSelector((state) => state?.users);
 
   // redirect
-  if (user) {
-    window.location.href = '/login';
-  }
+  // if (user) {
+  //   window.location.href = '/login';
+  // }
 
   return (
     <>
