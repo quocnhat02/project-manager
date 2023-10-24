@@ -1,12 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from "axios";
+import { act } from "react-dom/test-utils";
+import baseURL from "../../../utils/baseURL";
 import {
   resetErrAction,
   resetSuccessAction,
-} from '../globalActions/globalActions';
-import baseURL from '../../../utils/baseURL';
+} from "../globalActions/globalActions";
+const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
 
-// initialState
+//initalsState
 const initialState = {
   categories: [],
   category: {},
@@ -14,46 +15,33 @@ const initialState = {
   error: null,
   isAdded: false,
   isUpdated: false,
-  isDeleted: false,
+  isDelete: false,
 };
 
-// fetch categories action
-export const fetchCategoriesAction = createAsyncThunk(
-  'category/fetch-All',
-  async (payload, { rejectWithValue, getState, dispatch }) => {
-    try {
-      const { data } = await axios.get(`${baseURL}/categories`);
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data);
-    }
-  }
-);
-
-// create category action
+//create Category action
 export const createCategoryAction = createAsyncThunk(
-  'category/create',
+  "category/create",
   async (payload, { rejectWithValue, getState, dispatch }) => {
+    console.log(payload);
     try {
       const { name, file } = payload;
+      //fromData
       const formData = new FormData();
-      formData.append('name', name);
-      formData.append('file', file);
-      // token - authenticated
+      formData.append("name", name);
+      formData.append("file", file);
+      //Token - Authenticated
       const token = getState()?.users?.userAuth?.userInfo?.token;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-      // images
+      //Images
       const { data } = await axios.post(
         `${baseURL}/categories`,
         formData,
         config
       );
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
@@ -61,11 +49,24 @@ export const createCategoryAction = createAsyncThunk(
   }
 );
 
-const categoriesSlice = createSlice({
-  name: 'categories',
+//fetch Categories action
+export const fetchCategoriesAction = createAsyncThunk(
+  "category/fetch All",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(`${baseURL}/categories`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+//slice
+const categorySlice = createSlice({
+  name: "categories",
   initialState,
   extraReducers: (builder) => {
-    // create
+    //create
     builder.addCase(createCategoryAction.pending, (state) => {
       state.loading = true;
     });
@@ -81,7 +82,7 @@ const categoriesSlice = createSlice({
       state.error = action.payload;
     });
 
-    // fetch all
+    //fetch all
     builder.addCase(fetchCategoriesAction.pending, (state) => {
       state.loading = true;
     });
@@ -94,19 +95,18 @@ const categoriesSlice = createSlice({
       state.categories = null;
       state.error = action.payload;
     });
-
-    // reset err
+    //Reset err
     builder.addCase(resetErrAction.pending, (state, action) => {
       state.error = null;
     });
-    // reset success
+    //Reset success
     builder.addCase(resetSuccessAction.pending, (state, action) => {
       state.isAdded = false;
     });
   },
 });
 
-// generate the reducer
-const categoryReducer = categoriesSlice.reducer;
+//generate the reducer
+const categoryReducer = categorySlice.reducer;
 
 export default categoryReducer;

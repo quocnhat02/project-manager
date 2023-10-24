@@ -1,12 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from "axios";
+import baseURL from "../../../utils/baseURL";
 import {
   resetErrAction,
   resetSuccessAction,
-} from '../globalActions/globalActions';
-import baseURL from '../../../utils/baseURL';
+} from "../globalActions/globalActions";
+const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
 
-// initialState
+//initalsState
 const initialState = {
   colors: [],
   color: {},
@@ -14,36 +14,22 @@ const initialState = {
   error: null,
   isAdded: false,
   isUpdated: false,
-  isDeleted: false,
+  isDelete: false,
 };
 
-// fetch color action
-export const fetchColorsAction = createAsyncThunk(
-  'colors/fetch-All',
-  async (payload, { rejectWithValue, getState, dispatch }) => {
-    try {
-      const { data } = await axios.get(`${baseURL}/colors`);
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data);
-    }
-  }
-);
-
-// create color action
+//create color action
 export const createColorAction = createAsyncThunk(
-  'color/create',
+  "color/create",
   async (name, { rejectWithValue, getState, dispatch }) => {
     try {
-      // token - authenticated
+      //Token - Authenticated
       const token = getState()?.users?.userAuth?.userInfo?.token;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-      // images
+      //Images
       const { data } = await axios.post(
         `${baseURL}/colors`,
         {
@@ -51,7 +37,6 @@ export const createColorAction = createAsyncThunk(
         },
         config
       );
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
@@ -59,11 +44,24 @@ export const createColorAction = createAsyncThunk(
   }
 );
 
+//fetch colors action
+export const fetchColorsAction = createAsyncThunk(
+  "colors/fetch-all",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(`${baseURL}/colors`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+//slice
 const colorsSlice = createSlice({
-  name: 'colors',
+  name: "brands",
   initialState,
   extraReducers: (builder) => {
-    // create
+    //create
     builder.addCase(createColorAction.pending, (state) => {
       state.loading = true;
     });
@@ -79,7 +77,7 @@ const colorsSlice = createSlice({
       state.error = action.payload;
     });
 
-    // fetch all
+    //fetch all
     builder.addCase(fetchColorsAction.pending, (state) => {
       state.loading = true;
     });
@@ -94,12 +92,12 @@ const colorsSlice = createSlice({
       state.isAdded = false;
       state.error = action.payload;
     });
-    // reset err
+    //reset error action
     builder.addCase(resetErrAction.pending, (state, action) => {
       state.isAdded = false;
       state.error = null;
     });
-    // reset success
+    //reset success action
     builder.addCase(resetSuccessAction.pending, (state, action) => {
       state.isAdded = false;
       state.error = null;
@@ -107,7 +105,7 @@ const colorsSlice = createSlice({
   },
 });
 
-// generate the reducer
-const colorReducer = colorsSlice.reducer;
+//generate the reducer
+const colorsReducer = colorsSlice.reducer;
 
-export default colorReducer;
+export default colorsReducer;

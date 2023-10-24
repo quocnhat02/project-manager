@@ -1,12 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from "axios";
+import baseURL from "../../../utils/baseURL";
 import {
   resetErrAction,
   resetSuccessAction,
-} from '../globalActions/globalActions';
-import baseURL from '../../../utils/baseURL';
+} from "../globalActions/globalActions";
+const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
 
-// initialState
+//initalsState
 const initialState = {
   brands: [],
   brand: {},
@@ -14,36 +14,22 @@ const initialState = {
   error: null,
   isAdded: false,
   isUpdated: false,
-  isDeleted: false,
+  isDelete: false,
 };
 
-// fetch brand action
-export const fetchBrandsAction = createAsyncThunk(
-  'brands/fetch-All',
-  async (payload, { rejectWithValue, getState, dispatch }) => {
-    try {
-      const { data } = await axios.get(`${baseURL}/brands`);
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error?.response?.data);
-    }
-  }
-);
-
-// create brand action
+//create brand action
 export const createBrandAction = createAsyncThunk(
-  'brand/create',
+  "brand/create",
   async (name, { rejectWithValue, getState, dispatch }) => {
     try {
-      // token - authenticated
+      //Token - Authenticated
       const token = getState()?.users?.userAuth?.userInfo?.token;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-      // images
+      //Images
       const { data } = await axios.post(
         `${baseURL}/brands`,
         {
@@ -51,7 +37,6 @@ export const createBrandAction = createAsyncThunk(
         },
         config
       );
-
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
@@ -59,11 +44,24 @@ export const createBrandAction = createAsyncThunk(
   }
 );
 
+//fetch brands action
+export const fetchBrandsAction = createAsyncThunk(
+  "brands/fetch All",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(`${baseURL}/brands`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+//slice
 const brandsSlice = createSlice({
-  name: 'brands',
+  name: "brands",
   initialState,
   extraReducers: (builder) => {
-    // create
+    //create
     builder.addCase(createBrandAction.pending, (state) => {
       state.loading = true;
     });
@@ -79,7 +77,7 @@ const brandsSlice = createSlice({
       state.error = action.payload;
     });
 
-    // fetch all
+    //fetch all
     builder.addCase(fetchBrandsAction.pending, (state) => {
       state.loading = true;
     });
@@ -94,12 +92,12 @@ const brandsSlice = createSlice({
       state.isAdded = false;
       state.error = action.payload;
     });
-    // reset err
+    //reset error action
     builder.addCase(resetErrAction.pending, (state, action) => {
       state.isAdded = false;
       state.error = null;
     });
-    // reset success
+    //reset success action
     builder.addCase(resetSuccessAction.pending, (state, action) => {
       state.isAdded = false;
       state.error = null;
@@ -107,7 +105,7 @@ const brandsSlice = createSlice({
   },
 });
 
-// generate the reducer
-const brandReducer = brandsSlice.reducer;
+//generate the reducer
+const brandsReducer = brandsSlice.reducer;
 
-export default brandReducer;
+export default brandsReducer;

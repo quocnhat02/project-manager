@@ -1,75 +1,164 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import baseURL from '../../../utils/baseURL';
-import { resetErrAction } from '../globalActions/globalActions';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-// initialState
+import baseURL from "../../../utils/baseURL";
+import {
+  resetErrAction,
+  resetSuccessAction,
+} from "../globalActions/globalActions";
+//initialState
 const initialState = {
   loading: false,
   error: null,
   users: [],
-  user: {},
+  user: null,
   profile: {},
   userAuth: {
     loading: false,
     error: null,
-    userInfo: localStorage.getItem('userInfo')
-      ? JSON.parse(localStorage.getItem('userInfo'))
+    userInfo: localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
       : null,
   },
 };
 
-// register action
+//register action
 export const registerUserAction = createAsyncThunk(
-  'users/register',
+  "users/register",
   async (
-    { fullname, email, password },
+    { email, password, fullname },
     { rejectWithValue, getState, dispatch }
   ) => {
     try {
-      // make the http request
+      //make the http request
       const { data } = await axios.post(`${baseURL}/users/register`, {
         email,
         password,
         fullname,
       });
-
       return data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error?.response?.data);
     }
   }
 );
 
-// login action
+//update user shipping address action
+export const updateUserShippingAddressAction = createAsyncThunk(
+  "users/update-shipping-address",
+  async (
+    {
+      firstName,
+      lastName,
+      address,
+      city,
+      postalCode,
+      province,
+      phone,
+      country,
+    },
+    { rejectWithValue, getState, dispatch }
+  ) => {
+    console.log(
+      firstName,
+      lastName,
+      address,
+      city,
+      postalCode,
+      province,
+      phone,
+      country
+    );
+    try {
+      //get token
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await axios.put(
+        `${baseURL}/users/update/shipping`,
+        {
+          firstName,
+          lastName,
+          address,
+          city,
+          postalCode,
+          province,
+          phone,
+          country,
+        },
+        config
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+//user profile action
+export const getUserProfileAction = createAsyncThunk(
+  "users/profile-fetched",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      //get token
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const { data } = await axios.get(`${baseURL}/users/profile`, config);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+//login action
 export const loginUserAction = createAsyncThunk(
-  'users/login',
+  "users/login",
   async ({ email, password }, { rejectWithValue, getState, dispatch }) => {
     try {
-      // make the http request
+      //make the http request
       const { data } = await axios.post(`${baseURL}/users/login`, {
         email,
         password,
       });
-
-      // save the user into localStorage
-      localStorage.setItem('userInfo', JSON.stringify(data));
-
+      //save the user into localstorage
+      localStorage.setItem("userInfo", JSON.stringify(data));
       return data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error?.response?.data);
     }
   }
 );
 
-// user slice
+//logout action
+export const logoutAction = createAsyncThunk(
+  "users/logout",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    //get token
+    localStorage.removeItem("userInfo");
+    return true;
+  }
+);
+
+//users slice
 
 const usersSlice = createSlice({
-  name: 'users',
+  name: "users",
   initialState,
   extraReducers: (builder) => {
-    // handle actions
-    // login
+    //handle actions
+    //login
     builder.addCase(loginUserAction.pending, (state, action) => {
       state.userAuth.loading = true;
     });
@@ -81,7 +170,7 @@ const usersSlice = createSlice({
       state.userAuth.error = action.payload;
       state.userAuth.loading = false;
     });
-    // register
+    //register
     builder.addCase(registerUserAction.pending, (state, action) => {
       state.loading = true;
     });
@@ -93,14 +182,51 @@ const usersSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     });
-    // reset error action
+    //logout
+    builder.addCase(logoutAction.fulfilled, (state, action) => {
+      state.userAuth.userInfo = null;
+    });
+    //profile
+    builder.addCase(getUserProfileAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getUserProfileAction.fulfilled, (state, action) => {
+      state.profile = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(getUserProfileAction.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+    //shipping address
+    builder.addCase(
+      updateUserShippingAddressAction.pending,
+      (state, action) => {
+        state.loading = true;
+      }
+    );
+    builder.addCase(
+      updateUserShippingAddressAction.fulfilled,
+      (state, action) => {
+        state.user = action.payload;
+        state.loading = false;
+      }
+    );
+    builder.addCase(
+      updateUserShippingAddressAction.rejected,
+      (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      }
+    );
+    //reset error action
     builder.addCase(resetErrAction.pending, (state) => {
       state.error = null;
     });
   },
 });
 
-// generate reducer
+//generate reducer
 const usersReducer = usersSlice.reducer;
 
 export default usersReducer;
