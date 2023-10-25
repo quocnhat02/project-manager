@@ -3,12 +3,12 @@ import { createCategoryCtrl, getAllCategoriesCtrl, updateCategoryCtrl, getSingle
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
 import categoryFileUpload from "../config/categoryUpload.js";
 
-const categoriesRouter = express.Router();
+const categoryRoutes = express.Router();
 
-categoriesRouter.post("/", isLoggedIn,categoryFileUpload.single('file'), createCategoryCtrl);
-categoriesRouter.get("/", getAllCategoriesCtrl);
-categoriesRouter.get("/:id", getSingleCategoryCtrl);
-categoriesRouter.delete("/:id", deleteCategoryCtrl);
-categoriesRouter.put("/:id", updateCategoryCtrl);
+categoryRoutes.post("/", isLoggedIn,categoryFileUpload.single('file'), createCategoryCtrl);
+categoryRoutes.get("/", getAllCategoriesCtrl);
+categoryRoutes.get("/:id", getSingleCategoryCtrl);
+categoryRoutes.delete("/:id", deleteCategoryCtrl);
+categoryRoutes.put("/:id", updateCategoryCtrl);
 
-export default categoriesRouter;
+export default categoryRoutes;

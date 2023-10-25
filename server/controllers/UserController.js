@@ -25,6 +25,7 @@ export const registerUserCtrl = async (req, res) => {
       email,
       // password: hashedPassword,
       password,
+      isAdmin: true,
     });
     res.status(201).json({
       status: 'success',

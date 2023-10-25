@@ -1,7 +1,7 @@
 import express from 'express';
-import cors from 'cors';
 import dbConnect from '../config/dbConnect.js';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import userRoutes from '../routes/userRoutes.js';
 import { globalErrHandler } from '../middlewares/globalErrHandles.js';
 import productRoutes from '../routes/productRoutes.js';
@@ -19,7 +19,6 @@ dbConnect();
 const app = express();
 
 app.use(cors());
-
 app.use(express.json());
 
 app.use('/api/v1/users/', userRoutes);

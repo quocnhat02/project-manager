@@ -3,23 +3,24 @@ import Category from "../model/Category.js";
 
 export const createCategoryCtrl = asyncHandler(async (req, res) => {
     const { name } = req.body;
-    const categoryFound = await Category.findOne({name});
-    if(categoryFound){
-        throw new Error("Loại sản phẩm này đã tồn tại");
+
+    const categoryFound = await Category.findOne({ name });
+    if (categoryFound) {
+      throw new Error("Category already exists");
     }
 
     const category = await Category.create({
-        name: name.toLowerCase(),
-        user: req.userAuthId,
-        image: req.file.path,
+      name: name?.toLowerCase(),
+      user: req.userAuthId,
+    //   image: req?.file?.path,
     });
-
+  
     res.json({
-        status: "success",
-        message: "Thêm loại sản phẩm mới thành công",
-        category,
+      status: "success",
+      message: "Category created successfully",
+      category,
     });
-});
+  });
 
 export const getAllCategoriesCtrl = asyncHandler(async (req, res) => {
     const categories = await Category.find();

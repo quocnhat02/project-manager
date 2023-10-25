@@ -19,7 +19,7 @@ const ProductSchema = new Schema(
     category: {
       type: String,
       ref: "Category",
-      required: true,
+      required: false,
     },
     sizes: {
       type: [String],
@@ -40,7 +40,7 @@ const ProductSchema = new Schema(
     images: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
 
