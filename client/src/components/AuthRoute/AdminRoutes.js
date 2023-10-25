@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserProfileAction } from "../../redux/slices/users/usersSlice";
-import AdminOnly from "../NotAuthorised/AdminOnly";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserProfileAction } from '../../redux/slices/users/usersSlice';
+import AdminOnly from '../NotAuthorised/AdminOnly';
 
 const AdminRoutes = ({ children }) => {
-  console.log("ddd");
+  console.log('ddd');
   //dispatch
   const dispatch = useDispatch();
   useEffect(() => {

@@ -1,11 +1,11 @@
-import axios from "axios";
-import { act } from "react-dom/test-utils";
-import baseURL from "../../../utils/baseURL";
+import axios from 'axios';
+import { act } from 'react-dom/test-utils';
+import baseURL from '../../../utils/baseURL';
 import {
   resetErrAction,
   resetSuccessAction,
-} from "../globalActions/globalActions";
-const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
+} from '../globalActions/globalActions';
+const { createAsyncThunk, createSlice } = require('@reduxjs/toolkit');
 
 //initalsState
 const initialState = {
@@ -20,7 +20,7 @@ const initialState = {
 
 //create product action
 export const createProductAction = createAsyncThunk(
-  "product/create",
+  'product/create',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     console.log(payload);
     try {
@@ -39,28 +39,28 @@ export const createProductAction = createAsyncThunk(
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       };
       //FormData
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("category", category);
+      formData.append('name', name);
+      formData.append('description', description);
+      formData.append('category', category);
 
-      formData.append("brand", brand);
-      formData.append("price", price);
-      formData.append("totalQty", totalQty);
+      formData.append('brand', brand);
+      formData.append('price', price);
+      formData.append('totalQty', totalQty);
 
       sizes.forEach((size) => {
-        formData.append("sizes", size);
+        formData.append('sizes', size);
       });
       colors.forEach((color) => {
-        formData.append("colors", color);
+        formData.append('colors', color);
       });
 
       files.forEach((file) => {
-        formData.append("files", file);
+        formData.append('files', file);
       });
 
       const { data } = await axios.post(
@@ -75,9 +75,9 @@ export const createProductAction = createAsyncThunk(
   }
 );
 
-//create product action
+//update product action
 export const updateProductAction = createAsyncThunk(
-  "product/update",
+  'product/update',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     console.log(payload);
     try {
@@ -120,9 +120,31 @@ export const updateProductAction = createAsyncThunk(
   }
 );
 
+//delete product action
+export const deleteProductAction = createAsyncThunk(
+  'product/delete',
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    console.log(payload);
+    try {
+      const { id } = payload;
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.delete(`${baseURL}/products/${id}`, config);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 //fetch products action
 export const fetchProductsAction = createAsyncThunk(
-  "product/list",
+  'product/list',
   async ({ url }, { rejectWithValue, getState, dispatch }) => {
     console.log(url);
     try {
@@ -143,7 +165,7 @@ export const fetchProductsAction = createAsyncThunk(
 
 //fetch product action
 export const fetchProductAction = createAsyncThunk(
-  "product/details",
+  'product/details',
   async (productId, { rejectWithValue, getState, dispatch }) => {
     try {
       const token = getState()?.users?.userAuth?.userInfo?.token;
@@ -165,7 +187,7 @@ export const fetchProductAction = createAsyncThunk(
 );
 //slice
 const productSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState,
   extraReducers: (builder) => {
     //create
@@ -196,6 +218,21 @@ const productSlice = createSlice({
       state.loading = false;
       state.product = null;
       state.isUpdated = false;
+      state.error = action.payload;
+    });
+    //delete
+    builder.addCase(deleteProductAction.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteProductAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.product = action.payload;
+      state.isDelete = true;
+    });
+    builder.addCase(deleteProductAction.rejected, (state, action) => {
+      state.loading = false;
+      state.product = null;
+      state.isDelete = false;
       state.error = action.payload;
     });
     //fetch all
