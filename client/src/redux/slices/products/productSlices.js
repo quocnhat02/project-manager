@@ -134,7 +134,10 @@ export const deleteProductAction = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.delete(`${baseURL}/products/${id}`, config);
+      const { data } = await axios.delete(
+        `${baseURL}/products/${id}/delete`,
+        config
+      );
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);

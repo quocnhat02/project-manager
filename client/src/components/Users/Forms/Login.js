@@ -100,8 +100,8 @@ const Login = () => {
               className='w-full md:w-2/6 h-128 md:h-auto flex items-center lg:items-end px-4 pb-20 bg-cover bg-no-repeat'
               style={{
                 backgroundImage:
-                  // 'url("https://cdn.pixabay.com/photo/2017/03/29/04/47/high-heels-2184095_1280.jpg")',
-                  'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSF3jGpPfkS7HA4NGOR3eaWrRLbPjp_2hu6pLeAaxAMQ&s")',
+                  'url("https://cdn.pixabay.com/photo/2017/03/29/04/47/high-heels-2184095_1280.jpg")',
+                // 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSF3jGpPfkS7HA4NGOR3eaWrRLbPjp_2hu6pLeAaxAMQ&s")',
               }}
             ></div>
           </div>

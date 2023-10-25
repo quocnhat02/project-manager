@@ -360,15 +360,15 @@ export default function AddminDashboard() {
                 <div className='space-y-1 px-2'>
                   {ordersLinks.map((item) => (
                     <Link
-                      key={item.name}
-                      to={item.href}
+                      key={item?.name}
+                      to={item?.href}
                       className='group flex items-center rounded-md px-2 py-2 text-sm font-medium leading-6 text-cyan-100 hover:bg-cyan-600 hover:text-white'
                     >
                       <item.icon
                         className='mr-4 h-6 w-6 text-cyan-200'
                         aria-hidden='true'
                       />
-                      {item.name}
+                      {item?.name}
                     </Link>
                   ))}
                 </div>

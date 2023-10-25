@@ -56,7 +56,7 @@ export default function Navbar() {
   //Get current coupon
   const currentCoupon = coupons
     ? coupons?.coupons?.[coupons?.coupons?.length - 1]
-    : console.log(currentCoupon);
+    : coupons;
 
   return (
     <div className='bg-white'>
@@ -364,7 +364,7 @@ export default function Navbar() {
                         aria-hidden='true'
                       />
                       {/* login shopping cart mobile */}
-                      <div className='flow-root'>
+                      {/* <div className='flow-root'>
                         <Link
                           to='/shopping-cart'
                           className='group -m-2 flex items-center p-2'
@@ -377,7 +377,7 @@ export default function Navbar() {
                             {cartItems?.length > 0 ? cartItems?.length : 0}
                           </span>
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

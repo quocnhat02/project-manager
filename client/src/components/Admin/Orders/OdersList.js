@@ -33,14 +33,14 @@ export default function OrdersList() {
 
   return (
     <>
-      {error && <ErrorMsg message={error?.message} />}
+      {/* {error && <ErrorMsg message={error?.message} />} */}
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'></div>
         {/* order stats */}
         <OrdersStats />
 
         <h3 className='text-lg font-medium leading-6 text-gray-900 mt-3'>
-          Recent Oders
+          Recent Orders
         </h3>
         <div className='-mx-4 mt-3  overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg'>
           <table className='min-w-full divide-y divide-gray-300'>
